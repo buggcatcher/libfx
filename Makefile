@@ -1,16 +1,18 @@
 NAME = libft.a
 CC = cc
+CXX = g++
 AR = ar rcs
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes -fno-builtin
+CFLAGS = -Wall -Wextra -Werror -Iinc -fno-builtin
+CXXFLAGS = -Wall -Wextra -Werror -Iinc
 ARCH ?= c 
 
 OBJDIR = build/obj
 LIBDIR = build/lib
 
-SRC_C = src/converter/ft_atoi.c
-SRC_X86 = asm/x86_64/converter/ft_atoi.S
-SRC_ARM = asm/arm64/converter/ft_atoi.S
+SRC_C = src/c/ft_atoi.c
+SRC_X86 = src/x86_64/ft_atoi.S
+SRC_ARM = src/arm64/ft_atoi.S
 
 OBJ = $(OBJDIR)/ft_atoi.o
 
@@ -34,8 +36,11 @@ endif
 $(LIBDIR)/$(NAME): $(OBJ) | $(LIBDIR)
 	$(AR) $@ $(OBJ)
 
+main: main.cpp $(OBJ)
+	$(CXX) $(CXXFLAGS) main.cpp $(OBJ) -o main
+
 clean:
-	rm -rf build
+	rm -rf build main
 
 re: clean all
 

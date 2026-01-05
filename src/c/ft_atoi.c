@@ -1,4 +1,4 @@
-#include "inc/libft.h"
+#include "libft.h"
 #include <limits.h>
 
 static int	ft_isspace(int c)
