@@ -1,8 +1,8 @@
 .text
-    .globl ft_atoi
-    .type ft_atoi, %function
+    .globl fx_atoi
+    .type fx_atoi, %function
 
-ft_atoi:
+fx_atoi:
     cbz     x0, .Lzero          // NULL check
     mov     w1, #0              // i = 0
     mov     w2, #1              // sign = 1

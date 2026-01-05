@@ -1,17 +1,18 @@
-#include "libft.h"
+#include "libfx.h"
+#include "libfx.h"
 #include <limits.h>
 
-static int	ft_isspace(int c)
+static int	fx_isspace(int c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-static int	ft_isdigit(int c)
+static int	fx_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
 }
 
-int	ft_atoi(const char *nptr)
+int fx_atoi(const char *nptr)
 {
 	int i;
 	int sign;
@@ -22,7 +23,7 @@ int	ft_atoi(const char *nptr)
 		return (0);
 
 	i = 0;
-	while (ft_isspace(nptr[i]))
+	while (fx_isspace(nptr[i]))
 		i++;
 
 	sign = 1;
@@ -31,7 +32,7 @@ int	ft_atoi(const char *nptr)
 			sign = -1;
 
 	res = 0;
-	while (ft_isdigit(nptr[i]))
+	while (fx_isdigit(nptr[i]))
 	{
 		digit = nptr[i++] - '0';
 		if (sign == 1 && (res > (LONG_MAX - digit) / 10))
@@ -41,7 +42,7 @@ int	ft_atoi(const char *nptr)
 		res = res * 10 + digit;
 	}
 
-	if (i == 0 || !ft_isdigit(nptr[i-1]))
+	if (i == 0 || !fx_isdigit(nptr[i-1]))
 		return (0);
 
 	if (sign == 1 && res > INT_MAX)

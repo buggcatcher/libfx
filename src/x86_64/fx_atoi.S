@@ -1,8 +1,8 @@
-	.text
-	.globl ft_atoi
-	.type ft_atoi, @function
+.text
+	.globl fx_atoi
+	.type fx_atoi, @function
 
-ft_atoi:
+fx_atoi:
 	test    %rdi, %rdi
 	je      .Lzero
 
