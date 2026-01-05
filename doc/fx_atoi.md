@@ -1,4 +1,4 @@
-# fx_atoi ARM64: Analisi Assembly
+# fx_atoi.S ARM64: Analisi
 
 ## Introduzione
 Questo documento presenta la funzione `fx_atoi` in Assembly ARM64 per comprendere ogni istruzione e concetto architetturale.
