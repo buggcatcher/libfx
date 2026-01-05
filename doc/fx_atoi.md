@@ -1,7 +1,7 @@
-# ft_atoi ARM64: Analisi Assembly
+# fx_atoi ARM64: Analisi Assembly
 
 ## Introduzione
-Questo documento presenta la funzione `ft_atoi` in Assembly ARM64 per comprendere ogni istruzione e concetto architetturale.
+Questo documento presenta la funzione `fx_atoi` in Assembly ARM64 per comprendere ogni istruzione e concetto architetturale.
 
 
 ---
@@ -64,7 +64,7 @@ V (oVerflow): overflow aritmetico signed
 
 ### 5. **Gestione overflow e sicurezza: superamento delle vulnerabilità della funzione standard**
 
-Questa versione di `ft_atoi` è progettata per essere **sicura** e superare tutte le vulnerabilità note della funzione standard `atoi`:
+Questa versione di `fx_atoi` è progettata per essere **sicura** e superare tutte le vulnerabilità note della funzione standard `atoi`:
 
 - **Gestione dell'overflow/underflow**: se il risultato supera i limiti di `int` (`INT_MAX`/`INT_MIN`), la funzione ritorna rispettivamente `INT_MAX` o `INT_MIN`.
 - **Input non valido**: se la stringa non contiene numeri validi, la funzione ritorna zero.
