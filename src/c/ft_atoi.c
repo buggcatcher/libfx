@@ -1,55 +1,55 @@
 #include "inc/libft.h"
+#include <limits.h>
 
-// Corrisponde al ciclo .Lws in Assembly che salta gli spazi bianchi
 static int	ft_isspace(int c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-// Corrisponde al controllo .Ldigit in Assembly
 static int	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
 }
 
-// Conversione stringa in intero (simile a atoi standard)
-// Versione C didattica con commenti paralleli all'implementazione Assembly ARM64
 int	ft_atoi(const char *nptr)
 {
-	int i;      // indice per scorrere la stringa (w1 in ASM)
-	int sign;   // segno del risultato (w2 in ASM)
-	int res;    // risultato accumulato (w3 in ASM)
+	int i;
+	int sign;
+	long res;
+	int digit;
 
-	// Controllo puntatore nullo (cbz x0, .Lzero in ASM)
 	if (!nptr)
 		return (0);
 
 	i = 0;
-	// Salta tutti i caratteri di spazio bianco (ciclo .Lws in ASM)
 	while (ft_isspace(nptr[i]))
 		i++;
 
-	// Gestione del segno (blocchi .Lsign e .Lplus in ASM)
 	sign = 1;
 	if (nptr[i] == '+' || nptr[i] == '-')
 		if (nptr[i++] == '-')
 			sign = -1;
-	// In ASM, il segno viene gestito con cmp e mov, qui con un if annidato
 
-	// Conversione delle cifre (ciclo .Ldigit in ASM)
 	res = 0;
 	while (ft_isdigit(nptr[i]))
 	{
-		// res = res * 10 + (nptr[i] - '0');
-		// In ASM: mul w3, w3, #10; sub w4, w4, #'0'; add w3, w3, w4
-		res = res * 10 + (nptr[i] - '0');
-		i++;
+		digit = nptr[i++] - '0';
+		if (sign == 1 && (res > (LONG_MAX - digit) / 10))
+			return (INT_MAX);
+		if (sign == -1 && (-res < (LONG_MIN + digit) / 10))
+			return (INT_MIN);
+		res = res * 10 + digit;
 	}
-	// In ASM, il ciclo termina su carattere non cifra (b.lt/b.gt .Lend)
 
-	// Ritorna il risultato con il segno (mul w0, w3, w2 in ASM)
-	return (res * sign);
-	// In ASM, il valore viene messo in w0 e ritornato con ret
+	if (i == 0 || !ft_isdigit(nptr[i-1]))
+		return (0);
+
+	if (sign == 1 && res > INT_MAX)
+		return (INT_MAX);
+	if (sign == -1 && -res < INT_MIN)
+		return (INT_MIN);
+
+	return ((int)(res * sign));
 }
 
 /*

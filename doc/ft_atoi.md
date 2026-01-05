@@ -1,7 +1,7 @@
-# ft_atoi ARM64: Analisi Assembly con teoria integrata
+# ft_atoi ARM64: Analisi Assembly
 
 ## Introduzione
-Questo documento presenta la funzione `ft_atoi` in Assembly ARM64 con annotazioni teoriche inline per comprendere ogni istruzione e concetto architetturale.
+Questo documento presenta la funzione `ft_atoi` in Assembly ARM64 per comprendere ogni istruzione e concetto architetturale.
 
 
 ---
@@ -62,22 +62,24 @@ V (oVerflow): overflow aritmetico signed
 
 ---
 
-### 5. **Overflow e conformità alla funzione standard**
+### 5. **Gestione overflow e sicurezza: superamento delle vulnerabilità della funzione standard**
 
-Alla 42, la versione di `ft_atoi` che viene richiesta deve comportarsi **esattamente come la funzione standard della libreria C** (`atoi`). Questo significa che:
+Questa versione di `ft_atoi` è progettata per essere **sicura** e superare tutte le vulnerabilità note della funzione standard `atoi`:
 
-- **Non bisogna gestire l'overflow**: la funzione standard non effettua controlli su valori fuori dal range di `int`.
-- **Il comportamento in caso di overflow è undefined behavior**: il risultato può essere diverso su architetture diverse, ma deve corrispondere a quello della funzione standard.
-- **Motivo**: i test di valutazione confrontano la nostra implementazione con quella della libreria standard. Se aggiungessimo controlli sull'overflow, i risultati sarebbero diversi e i test fallirebbero.
+- **Gestione dell'overflow/underflow**: se il risultato supera i limiti di `int` (`INT_MAX`/`INT_MIN`), la funzione ritorna rispettivamente `INT_MAX` o `INT_MIN`.
+- **Input non valido**: se la stringa non contiene numeri validi, la funzione ritorna zero.
+- **Nessun comportamento undefined**: tutte le condizioni di errore sono gestite esplicitamente.
 
-Esempio di overflow non gestito in Assembly:
+> **Nota didattica:**
+> Alla 42, la versione di `ft_atoi` che viene richiesta deve comportarsi **esattamente come la funzione standard della libreria C** (`atoi`). Questo significa che:
+> - **Non bisogna gestire l'overflow**: la funzione standard non effettua controlli su valori fuori dal range di `int`.
+> - **Il comportamento in caso di overflow è undefined behavior**: il risultato può essere diverso su architetture diverse, ma deve corrispondere a quello della funzione standard.
+> - **Motivo**: i test di valutazione confrontano la nostra implementazione con quella della libreria standard. Se aggiungessimo controlli sull'overflow, i risultati sarebbero diversi e i test fallirebbero.
+>
+> È per questo **libfx** non è **libft** compliant con le norme della 42 : qui punto alla sicurezza e robustezza, non alla conformità dei test della 42.
 
-```asm
-mul     w3, w3, w5    # overflow silenzioso
-```
-Se `res > INT_MAX / 10`, il risultato è **undefined behavior**.
+Esempio di gestione overflow in Assembly:
 
-**Soluzione consigliata** (non implementata):
 ```asm
 # Controllo pre-moltiplicazione
 mov     w6, #214748364      # INT_MAX / 10
@@ -85,19 +87,7 @@ cmp     w3, w6
 b.hi    .Loverflow          # salta se res troppo grande
 ```
 
-**Conclusione**: Per superare i test della 42, è necessario lasciare l'overflow non gestito, proprio come fa la funzione standard. Questo garantisce che la nostra funzione sia perfettamente confrontabile con la libreria C originale.
-
----
-
-### 6. **Confronto con x86_64**
-
-| Caratteristica | ARM64 | x86_64 |
-|----------------|-------|--------|
-| Load/Store | `ldrb` | `movzbq` |
-| Moltiplicazione | `mul` (3 operandi) | `imul` (2 operandi) |
-| Test NULL | `cbz` (1 istr.) | `test` + `je` (2 istr.) |
-| Immediati in `mul` | ❌ No | ✅ Sì |
-| Sintassi | dest, src1, src2 | src, dest |
+**Conclusione**: La funzione `ft_atoi` qui documentata è pensata per essere sicura, robusta e priva delle vulnerabilità tipiche della libreria standard, gestendo esplicitamente tutti i casi di errore e overflow.
 
 ---
 

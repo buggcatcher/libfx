@@ -33,6 +33,10 @@ ft_atoi:
     b.ne    .Ldigit
     add     w1, w1, #1
 
+    mov     w6, #2147483647      // INT_MAX
+    mov     w7, #-2147483648     // INT_MIN
+    mov     w8, #214748364       // INT_MAX/10
+
 .Ldigit:
     ldrb    w4, [x0, x1]        // ricarica
     cmp     w4, #'0'
@@ -42,6 +46,20 @@ ft_atoi:
 
                                 // res = res * 10 + (c - '0')
     mov     w5, #10
+    // Overflow check
+    cmp     w2, #1
+    b.ne    .Lnegcheck
+    cmp     w3, w8
+    b.hi    .Lmax
+
+.Lnegcheck:
+    cmp     w2, #-1
+    b.ne    .Lcalc
+    mov     w9, #214748364       // INT_MIN/10 (positivo)
+    cmp     w3, w9
+    b.hi    .Lmin
+
+.Lcalc:
     mul     w3, w3, w5          // no immediati
     sub     w4, w4, #'0'
     add     w3, w3, w4
@@ -49,10 +67,18 @@ ft_atoi:
     add     w1, w1, #1
     b       .Ldigit
 
+.Lmax:
+    mov     w0, w6
+    ret
+
+.Lmin:
+    mov     w0, w7
+    ret
+
 .Lend:
     mul     w0, w3, w2          // return res * sign
     ret
-
+    
 .Lzero:
     mov     w0, #0
     ret
