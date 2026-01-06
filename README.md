@@ -31,28 +31,6 @@ extern "C" {
 }
 ```
 
-## Documentazione
-
-- [fx_atoi (ARM64/C)](doc/fx_atoi.md)
-
-
-
-## Esecuzione dello script di lancio
-
-Per poter eseguire lo script `launcher.sh`, è necessario renderlo eseguibile. Puoi farlo con il comando:
-
-```sh
-chmod +x ./launcher.sh
-```
-
-Dopo averlo reso eseguibile, puoi avviarlo con:
-
-```sh
-./launcher.sh
-```
-
-Lo script rileva automaticamente l’architettura (ad esempio x86_64), seleziona il backend corretto (C o Assembly), ti permette di scegliere se eseguire il main in C o C++, compila i sorgenti e avvia il programma. In questo modo puoi testare la libreria senza ricordare tutti i comandi manualmente.
-
 
 ## Funzionamento: launcher.sh, Makefile, main e uso di fx_atoi
 
@@ -75,4 +53,25 @@ int main() {
 
 - **Utilizzo di fx_atoi in Assembly (.s)**: se scegli come backend l'implementazione Assembly (ad esempio per ARM64 o x86_64), la funzione `fx_atoi` sarà compilata dal relativo file `.s` (come `src/arm64/fx_atoi.S`). La selezione dell'implementazione Assembly avviene in modo automatico: se l'architettura rilevata è compatibile, il Makefile e lo script di lancio compileranno e collegheranno direttamente la versione `.s` altrimenti defaulta a `.c`.
 
-In sintesi: puoi compilare e testare la libreria facilmente tramite lo script di lancio o direttamente con il Makefile, scegliendo backend e architettura. Dal main (C o C++) puoi usare tutte le funzioni dell'API, che saranno collegate automaticamente alla versione corretta (C o ASM) in base alla configurazione di build.
+
+## Esecuzione dello script di lancio
+
+Per poter eseguire lo script `launcher.sh`, è necessario renderlo eseguibile. Puoi farlo con il comando:
+
+```sh
+chmod +x ./launcher.sh
+```
+
+Dopo averlo reso eseguibile, puoi avviarlo con:
+
+```sh
+./launcher.sh
+```
+
+Lo script rileva automaticamente l’architettura (ad esempio x86_64), seleziona il backend corretto (C o Assembly), ti permette di scegliere se eseguire il main in C o C++, compila i sorgenti e avvia il programma. In questo modo puoi testare la libreria senza ricordare tutti i comandi manualmente.
+
+
+## Documentazione
+
+- [fx_atoi (ARM64/C)](doc/fx_atoi.md)
+
