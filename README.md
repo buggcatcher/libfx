@@ -23,15 +23,6 @@ Libreria estesa e modulare in Assembly per il riutilizzo diretto in progetti C/C
 - Non conforme ai requisiti di valutazione della 42
 
 
-## Uso da C++
-
-```cpp
-extern "C" {
-#include <libft.h>
-}
-```
-
-
 ## Funzionamento: launcher.sh, Makefile, main e uso di fx_atoi
 
 - **launcher.sh**: è uno script di utilità che semplifica la compilazione e l'esecuzione della libreria. Può automatizzare la scelta dell'architettura, la pulizia dei file temporanei e il lancio dei comandi del Makefile. Dopo aver reso eseguibile lo script (`chmod +x ./launcher.sh`), puoi avviarlo con `./launcher.sh` per compilare e testare la libreria senza dover ricordare tutti i comandi manualmente.
