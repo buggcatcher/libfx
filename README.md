@@ -42,7 +42,7 @@ int main() {
 }
 ```
 
-- **Utilizzo di fx_atoi in Assembly (.s)**: se scegli come backend l'implementazione Assembly (ad esempio per ARM64 o x86_64), la funzione `fx_atoi` sarà compilata dal relativo file `.s` (come `src/arm64/fx_atoi.S`). La selezione dell'implementazione Assembly avviene in modo automatico: se l'architettura rilevata è compatibile, il Makefile e lo script di lancio compileranno e collegheranno direttamente la versione `.s` altrimenti defaulta a `.c`.
+- **Utilizzo di fx_atoi in Assembly (.s)**: l'implementazione Assembly (ad esempio per ARM64 o x86_64) di `fx_atoi` sarà compilata dal relativo file `.s` (come `src/arm64/fx_atoi.S`). La selezione dell'implementazione Assembly avviene in modo automatico: se l'architettura rilevata è compatibile, il Makefile e lo script di lancio compileranno e collegheranno direttamente la versione `.s` altrimenti defaulta a `.c`.
 
 
 ## Esecuzione dello script di lancio
