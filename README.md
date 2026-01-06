@@ -42,10 +42,16 @@ extern "C" {
 Per poter eseguire lo script `launcher.sh`, è necessario renderlo eseguibile. Puoi farlo con il comando:
 
 ```sh
-chmod +x ; ./launcher.sh
+chmod +x ./launcher.sh
 ```
 
-Questo comando assegna i permessi di esecuzione al file, permettendoti di avviarlo direttamente con `./launcher.sh`.
+Dopo averlo reso eseguibile, puoi avviarlo con:
+
+```sh
+./launcher.sh
+```
+
+Lo script rileva automaticamente l’architettura (ad esempio x86_64), seleziona il backend corretto (C o Assembly), ti permette di scegliere se eseguire il main in C o C++, compila i sorgenti e avvia il programma. In questo modo puoi testare la libreria senza ricordare tutti i comandi manualmente.
 
 
 ## Funzionamento: launcher.sh, Makefile, main e uso di fx_atoi
