@@ -71,7 +71,7 @@ Questa versione di `fx_atoi` è progettata per essere **sicura** e superare tutt
 - **Nessun comportamento undefined**: tutte le condizioni di errore sono gestite esplicitamente.
 
 > **Nota didattica:**
-> Alla 42, la versione di `ft_atoi` che viene richiesta deve comportarsi **esattamente come la funzione standard della libreria C** (`atoi`). Questo significa che:
+> Alla 42, la versione di `fx_atoi` che viene richiesta deve comportarsi **esattamente come la funzione standard della libreria C** (`atoi`). Questo significa che:
 > - **Non bisogna gestire l'overflow**: la funzione standard non effettua controlli su valori fuori dal range di `int`.
 > - **Il comportamento in caso di overflow è undefined behavior**: il risultato può essere diverso su architetture diverse, ma deve corrispondere a quello della funzione standard.
 > - **Motivo**: i test di valutazione confrontano la nostra implementazione con quella della libreria standard. Se aggiungessimo controlli sull'overflow, i risultati sarebbero diversi e i test fallirebbero.
@@ -87,7 +87,7 @@ cmp     w3, w6
 b.hi    .Loverflow          # salta se res troppo grande
 ```
 
-**Conclusione**: La funzione `ft_atoi` qui documentata è pensata per essere sicura, robusta e priva delle vulnerabilità tipiche della libreria standard, gestendo esplicitamente tutti i casi di errore e overflow.
+**Conclusione**: La funzione `fx_atoi` qui documentata è pensata per essere sicura, robusta e priva delle vulnerabilità tipiche della libreria standard, gestendo esplicitamente tutti i casi di errore e overflow.
 
 ---
 
@@ -96,7 +96,7 @@ b.hi    .Loverflow          # salta se res troppo grande
 ```c
 // C
 int i = 0;
-while (ft_isspace(nptr[i]))
+while (fx_isspace(nptr[i]))
     i++;
 ```
 
@@ -116,13 +116,13 @@ mov     w1, #0
 
 ```bash
 # Assembla
-as -o ft_atoi.o ft_atoi_arm64.S
+as -o fx_atoi.o fx_atoi_arm64.S
 
 # Linka con C
-cc -o test test.c ft_atoi.o
+cc -o test test.c fx_atoi.o
 
 # Disassembla per verifica
-objdump -d ft_atoi.o
+objdump -d fx_atoi.o
 ```
 
 ---
@@ -131,14 +131,14 @@ objdump -d ft_atoi.o
 
 ```asm
     .text                           # DIRETTIVA: sezione codice eseguibile
-    .globl ft_atoi                  # DIRETTIVA: simbolo visibile al linker
-    .type ft_atoi, %function        # DIRETTIVA: tipo simbolo (per debugging)
+    .globl fx_atoi                  # DIRETTIVA: simbolo visibile al linker
+    .type fx_atoi, %function        # DIRETTIVA: tipo simbolo (per debugging)
 
 # ============================================================================
 # PROLOG: Validazione input e inizializzazione registri
-# ============================================================================
+# =============================================================================
 
-ft_atoi:
+fx_atoi:
     cbz     x0, .Lzero              # Compare and Branch if Zero
                                     # TEORIA: cbz è un'istruzione condizionale ARM64
                                     # Controlla se x0 (puntatore nptr) == 0
@@ -164,7 +164,7 @@ ft_atoi:
 
 # ============================================================================
 # FASE 1: Skip whitespace (spazi bianchi)
-# ============================================================================
+# =============================================================================
 
 .Lws:                               # LABEL: "Loop WhiteSpace"
                                     # TEORIA: label = punto di salto in Assembly
@@ -216,11 +216,11 @@ ft_atoi:
     b       .Lws                    # Branch unconditional (sempre)
                                     # TEORIA: salta sempre a .Lws
                                     # Ricomincia il ciclo di skip whitespace
-                                    # MAPPING C: while (ft_isspace(nptr[i]))
+                                    # MAPPING C: while (fx_isspace(nptr[i]))
 
 # ============================================================================
 # FASE 2: Gestione del segno (+ o -)
-# ============================================================================
+# =============================================================================
 
 .Lsign:                             # LABEL: controlla segno
                                     # TEORIA: arriviamo qui quando il carattere
@@ -262,7 +262,7 @@ ft_atoi:
 
 # ============================================================================
 # FASE 3: Conversione cifre decimali (loop principale)
-# ============================================================================
+# =============================================================================
 
 .Ldigit:                            # LABEL: loop di conversione
                                     # TEORIA: questo è il cuore della funzione
@@ -272,7 +272,7 @@ ft_atoi:
                                     # TEORIA: dobbiamo ricaricare perché l'indice
                                     # potrebbe essere cambiato (++i per segno)
                                     # w4 = nptr[i] aggiornato
-                                    # MAPPING C: while (ft_isdigit(nptr[i]))
+                                    # MAPPING C: while (fx_isdigit(nptr[i]))
 
     cmp     w4, #'0'                # Confronta con '0' (ASCII 48)
                                     # TEORIA: limite inferiore cifre decimali
@@ -320,11 +320,11 @@ ft_atoi:
 
     b       .Ldigit                 # Ricomincia il loop
                                     # TEORIA: loop infinito fino a carattere non-cifra
-                                    # MAPPING C: while (ft_isdigit(nptr[i]))
+                                    # MAPPING C: while (fx_isdigit(nptr[i]))
 
 # ============================================================================
 # EPILOG: Applicazione segno e ritorno
-# ============================================================================
+# =============================================================================
 
 .Lend:                              # LABEL: fine conversione
                                     # TEORIA: arriviamo qui quando il carattere
@@ -344,7 +344,7 @@ ft_atoi:
 
 # ============================================================================
 # PERCORSO ALTERNATIVO: Input NULL
-# ============================================================================
+# =============================================================================
 
 .Lzero:                             # LABEL: gestione puntatore NULL
                                     # TEORIA: raggiungibile solo da cbz iniziale
